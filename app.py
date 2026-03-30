@@ -1,33 +1,21 @@
-{
- "cells": [
-  {
-   "cell_type": "code",
-   "execution_count": null,
-   "id": "5e9d821f-b4ca-4657-b00e-dc885ede6d00",
-   "metadata": {},
-   "outputs": [],
-   "source": []
-  }
- ],
- "metadata": {
-  "kernelspec": {
-   "display_name": "Python 3 (ipykernel)",
-   "language": "python",
-   "name": "python3"
-  },
-  "language_info": {
-   "codemirror_mode": {
-    "name": "ipython",
-    "version": 3
-   },
-   "file_extension": ".py",
-   "mimetype": "text/x-python",
-   "name": "python",
-   "nbconvert_exporter": "python",
-   "pygments_lexer": "ipython3",
-   "version": "3.13.6"
-  }
- },
- "nbformat": 4,
- "nbformat_minor": 5
-}
+import streamlit as st
+import joblib
+import numpy as np
+
+# load model
+model = joblib.load("model.pkl")
+
+st.title("💳 Credit Card Fraud Detection")
+
+amount = st.number_input("Transaction Amount", min_value=0.0)
+
+if st.button("Predict"):
+    data = np.zeros(30)
+    data[-1] = amount
+
+    prediction = model.predict([data])
+
+    if prediction[0] == 1:
+        st.error("🚨 Fraud Detected")
+    else:
+        st.success("✅ Legitimate Transaction")
